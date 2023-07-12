@@ -1,4 +1,5 @@
-import express from "express";
+import React from "react";
+import { HashRouter, Route } from "react-router-dom";
 import {
   getUser,
   getUserFriends,
@@ -6,13 +7,14 @@ import {
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
 
-const router = express.Router();
-
-/* READ */
-router.get("/:id", verifyToken, getUser);
-router.get("/#/:id/friends", verifyToken, getUserFriends);
-
-/* UPDATE */
-router.patch("/#/:id/:friendId", verifyToken, addRemoveFriend);
+const router = () => {
+  return (
+    <HashRouter>
+      <Route path="/:id" component={getUser} />
+      <Route path="/:id/friends" component={getUserFriends} />
+      <Route path="/:id/:friendId" component={addRemoveFriend} />
+    </HashRouter>
+  );
+};
 
 export default router;
